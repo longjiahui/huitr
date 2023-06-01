@@ -11,6 +11,11 @@ const router = createRouter({
             component: () => import('@/views/HomePage.vue'),
         },
         {
+            path: '/test',
+            // name: $const.Routes.default,
+            component: () => import('@/views/TestPage.vue'),
+        },
+        {
             path: '/:catchAll(.*)',
             name: $const.Routes.pageNotFound,
             component: () => import('@/views/PageNotFound.vue'),

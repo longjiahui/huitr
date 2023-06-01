@@ -1,7 +1,7 @@
 import App from './App.vue'
 import { isDev } from './const'
 import './style.scss'
-import DefaultLib from '@/index'
+import HuitrPlugin from '@/index'
 import plugins from '@/scripts/plugins'
 import { createApp } from 'vue'
 
@@ -11,13 +11,13 @@ app.use(plugins)
 
 const module = isDev
     ? import.meta.glob('@/index')
-    : import.meta.glob('../dist/myLib.js')
+    : import.meta.glob('../dist/huitr.js')
 
 ;(async () => {
-    const [{ default: defaultLib }] = (await Promise.all(
+    const [{ default: huitr }] = (await Promise.all(
         Object.keys(module).map((k: keyof typeof module) => module[k]()),
-    )) as [{ default: typeof DefaultLib }]
-    defaultLib()
+    )) as [{ default: typeof HuitrPlugin }]
+    app.use(huitr())
 })().finally(() => {
     app.mount('#app')
 })
