@@ -20,8 +20,8 @@ export default mergeConfig(
             lib: {
                 formats: ['es', 'umd', 'iife'],
                 entry: 'src/index.ts',
-                name: 'myLib',
-                fileName: 'myLib',
+                name: 'huitr',
+                fileName: 'huitr',
             },
             rollupOptions: {
                 external: ['vue', 'vue-router'],

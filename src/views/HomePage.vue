@@ -25,17 +25,17 @@
             v-huitr-leave:l:3="{ opacity: 0, translateX: 24, duration: 1 }"
         ></test-component>
 
-        <huitr-timeline id="test" :default="{ duration: 0.5 }">
+        <huitr-timeline id="test">
             <div
                 v-if="test"
                 v-huitr-leave:-e0d5:100:test="{ opacity: 0, duration: 0.5 }"
                 v-huitr-enter:::test="{
                     from: { opacity: 0 },
-                    to: { opacity: 1 },
+                    to: { opacity: 1, duration: 0.5 },
                 }"
                 class="flex flex-col"
             >
-                <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
+                <div v-huitr-leave::-1:test="{ opacity: 0 }">lsdkjfl</div>
                 <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
                 <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
                 <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>

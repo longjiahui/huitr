@@ -1,7 +1,18 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.0",
+    "version": "0.0.5",
     "type": "module",
+    "files": [
+        "dist"
+    ],
+    "module": "./dist/huitr.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/huitr.js",
+            "require": "./dist/huitr.umd.cjs"
+        }
+    },
     "scripts": {
         "postinstall": "husky install",
         "dev": "vite --force -c vite.dev.config.ts",
