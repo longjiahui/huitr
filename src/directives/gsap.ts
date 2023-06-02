@@ -87,7 +87,7 @@ const gsapDirective = (
                         .replaceAll('L', '<')
                         .replaceAll('l', '<')) ||
                 '0'
-            console.debug(position, _position, index, timelineId, el)
+            // console.debug(position, _position, index, timelineId, el)
             let processor: Processor
             if (value) {
                 if (isFromTo(value)) {
