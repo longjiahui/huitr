@@ -1,6 +1,6 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.5",
+    "version": "0.0.7",
     "type": "module",
     "files": [
         "dist"
@@ -14,7 +14,7 @@
         }
     },
     "scripts": {
-        "postinstall": "husky install",
+        "prepare": "husky install",
         "dev": "vite --force -c vite.dev.config.ts",
         "dev:staging": "concurrently \"npm run build -- --watch\" \"npm run dev -- --mode staging\"",
         "build:staging": "vite build --mode staging -c vite.prod.config.ts",
