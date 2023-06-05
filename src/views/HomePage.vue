@@ -1,5 +1,39 @@
 <template>
-    <div class="h-full w-full bg-gradient-to-b from-sky-500 to-indigo-500">
+    <div class="h-full w-full">
+        <huitr-timeline>
+            <div
+                v-if="toggle"
+                v-huitr-enter="{ from: { opacity: 0 }, to: { opacity: 1 } }"
+                v-huitr-leave="{ opacity: 0 }"
+                class="fixed h-full w-full bg-gradient-to-b from-sky-200 to-rose-400"
+            ></div>
+            <div
+                v-else
+                v-huitr-enter="{ from: { opacity: 0 }, to: { opacity: 1 } }"
+                v-huitr-leave="{ opacity: 0 }"
+                class="fixed h-full w-full bg-gradient-to-b from-sky-800 to-blue-400"
+            ></div>
+        </huitr-timeline>
+        <huitr-timeline>
+            <div
+                v-if="toggle"
+                v-huitr-enter="{
+                    from: { translateX: '25vw', translateY: '-25vw' },
+                    to: { translateX: 0, translateY: 0 },
+                }"
+                v-huitr-leave="{ translateX: '25vw', translateY: '-25vw' }"
+                class="fixed right-[-20vw] top-[-20vw] h-[50vw] w-[50vw] rounded-full bg-gradient-to-r from-pink-500 to-orange-500 p-4"
+            ></div>
+            <div
+                v-else
+                v-huitr-enter="{
+                    from: { translateX: '25vw', translateY: '-25vw' },
+                    to: { translateX: 0, translateY: 0 },
+                }"
+                v-huitr-leave="{ translateX: '25vw', translateY: '-25vw' }"
+                class="fixed right-[-20vw] top-[-20vw] h-[50vw] w-[50vw] rounded-full bg-gradient-to-l from-sky-900 to-purple-500 p-4"
+            ></div>
+        </huitr-timeline>
         <div
             v-huitr-enter="
                 (tl: gsap.core.Timeline, el:Element) => {
@@ -40,45 +74,6 @@
                 Go
             </button>
         </div>
-        <huitr-timeline>
-            <div
-                v-if="toggle"
-                v-huitr-enter="
-                    (tl: gsap.core.Timeline, el:Element) =>
-                        tl.fromTo(
-                            el.children,
-                            {
-                                translateX: 90,
-                                opacity: 0,
-                            },
-                            {
-                                translateX: 0,
-                                opacity: 1,
-                                stagger: 0.2,
-                            },
-                        )
-                "
-                v-huitr-leave="
-                    (tl: gsap.core.Timeline, el:Element) =>
-                        tl.to(el.children, {
-                            translateX: 90,
-                            opacity: 0,
-                            stagger: 0.2,
-                        })
-                "
-                class="fixed right-4 top-4 flex flex-col items-end"
-            >
-                <span
-                    class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-8xl font-bold text-transparent"
-                >
-                    Hello
-                </span>
-                <span
-                    class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-4xl font-bold text-transparent"
-                    >world</span
-                >
-            </div>
-        </huitr-timeline>
     </div>
 </template>
 
