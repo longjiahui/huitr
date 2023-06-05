@@ -1,61 +1,89 @@
 <template>
-    <div
-        @click="$router.push('/test')"
-        class="flex h-full w-full flex-col items-center justify-center bg-sky-100"
-    >
+    <div class="h-full w-full bg-gradient-to-b from-sky-500 to-indigo-500">
         <div
-            v-huitr-leave::-1="{
-                opacity: 0,
-                translateX: 24,
-                scale: 5,
-            }"
-            v-huitr-enter::1:R="{
-                from: { scale: 2, opacity: 0 },
-                to: { scale: 1, opacity: 1 },
-            }"
-            class="text-7xl font-bold"
+            v-huitr-enter="
+                (tl: gsap.core.Timeline, el:Element) => {
+                    tl.fromTo(
+                        el.children,
+                        {
+                            translateY: 90,
+                            opacity: 0,
+                        },
+                        {
+                            translateY: 0,
+                            opacity: 1,
+                            stagger: 0.2,
+                        },
+                    )
+                }
+            "
+            v-huitr-leave="
+                (tl: gsap.core.Timeline, el:Element) =>
+                    tl.to(el.children, {
+                        translateY: 90,
+                        opacity: 0,
+                        stagger: 0.2,
+                    })
+            "
+            class="flex h-full w-full flex-col items-center justify-center space-y-4"
         >
-            hello
-        </div>
-        <div v-huitr-leave::2="{ opacity: 0, translateX: 24 }">HTLJSLDKFJl</div>
-        <div v-huitr-leave:r:3="{ opacity: 0, translateX: 24 }">
-            sdlfkjalsdkfj
-        </div>
-        <test-component
-            v-huitr-leave:l:3="{ opacity: 0, translateX: 24, duration: 1 }"
-        ></test-component>
-
-        <huitr-timeline id="test">
-            <div
-                v-if="test"
-                v-huitr-leave:-e0d5:100:test="{ opacity: 0, duration: 0.5 }"
-                v-huitr-enter:::test="{
-                    from: { opacity: 0 },
-                    to: { opacity: 1, duration: 0.5 },
-                }"
-                class="flex flex-col"
+            <button
+                @click="toggle = !toggle"
+                class="cursor-pointer rounded bg-sky-500 p-4 text-3xl font-bold tracking-widest text-white shadow-lg transition-none duration-300 hover:opacity-70"
             >
-                <div v-huitr-leave::-1:test="{ opacity: 0 }">lsdkjfl</div>
-                <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
-                <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
-                <div v-huitr-leave:r::test="{ opacity: 0 }">lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
-                <div>lsdkjfl</div>
+                Toggle
+            </button>
+            <button
+                @click="$router.push('/test')"
+                class="cursor-pointer rounded bg-sky-500 p-4 text-3xl font-bold tracking-widest text-white shadow-lg transition-none duration-300 hover:opacity-70"
+            >
+                Go
+            </button>
+        </div>
+        <huitr-timeline>
+            <div
+                v-if="toggle"
+                v-huitr-enter="
+                    (tl: gsap.core.Timeline, el:Element) =>
+                        tl.fromTo(
+                            el.children,
+                            {
+                                translateX: 90,
+                                opacity: 0,
+                            },
+                            {
+                                translateX: 0,
+                                opacity: 1,
+                                stagger: 0.2,
+                            },
+                        )
+                "
+                v-huitr-leave="
+                    (tl: gsap.core.Timeline, el:Element) =>
+                        tl.to(el.children, {
+                            translateX: 90,
+                            opacity: 0,
+                            stagger: 0.2,
+                        })
+                "
+                class="fixed right-4 top-4 flex flex-col items-end"
+            >
+                <span
+                    class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-8xl font-bold text-transparent"
+                >
+                    Hello
+                </span>
+                <span
+                    class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-4xl font-bold text-transparent"
+                    >world</span
+                >
             </div>
         </huitr-timeline>
-        <button @click.stop="test = !test">toggle</button>
     </div>
 </template>
-<script setup lang="ts">
-import TestComponent from '@/components/TestComponent.vue'
+
+<script lang="ts" setup>
 import { ref } from 'vue'
 
-const test = ref(true)
+let toggle = ref(true)
 </script>

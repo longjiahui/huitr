@@ -61,3 +61,20 @@ export function selectFile(accept?: string): Promise<Blob | undefined> {
         input.click()
     })
 }
+
+export function searchTimelineId(_el: Element) {
+    let timelineId: string | undefined
+    let el: Element | null = _el
+    while (!(timelineId = el?.timelineId) && el) {
+        el = el.parentElement
+    }
+    return timelineId
+}
+
+export function searchParentTimeline(_el: Element) {
+    let el: Element | null = _el.parentElement
+    while (!el?.timelineId && el) {
+        el = el.parentElement
+    }
+    return el
+}

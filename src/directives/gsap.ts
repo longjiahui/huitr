@@ -3,16 +3,17 @@ import {
     ContextManager,
     Context,
 } from '@/scripts/contextManager'
+import { searchTimelineId } from '@/scripts/utils'
 import gsap from 'gsap'
 import shortid from 'shortid'
-import { Directive } from 'vue'
+import { Directive, nextTick } from 'vue'
 
-type Processor = (timeline: Timeline, el: HTMLElement) => any
+type Processor = (timeline: Timeline, el: Element) => any
 
 class GsapProcessorContext implements Context {
     constructor(
         public id: string,
-        public el: HTMLElement,
+        public el: Element,
         public processor: Processor,
         public index: number,
     ) {}
@@ -20,11 +21,11 @@ class GsapProcessorContext implements Context {
 
 type GsapProcessorContextFactory = ContextFactory<
     GsapProcessorContext,
-    [HTMLElement, Processor, number?]
+    [Element, Processor, number?]
 >
 const gsapProcessorContextFactory: GsapProcessorContextFactory = (
     id: string,
-    el: HTMLElement,
+    el: Element,
     processor: Processor,
     index = 0,
 ) => {
@@ -72,43 +73,48 @@ const gsapDirective = (
 ) =>
     ({
         mounted(el, binding) {
-            const value = binding.value
-            const [_position, _index, timelineId] =
-                binding.arg?.split(':').map((d) => d.trim()) || []
-            const index = isNaN(+_index) ? 0 : +_index
-            const position =
-                (_position &&
-                    _position
-                        .replaceAll('d', '.')
-                        .replaceAll('E', '=')
-                        .replaceAll('e', '=')
-                        .replaceAll('R', '>')
-                        .replaceAll('r', '>')
-                        .replaceAll('L', '<')
-                        .replaceAll('l', '<')) ||
-                '0'
-            // console.debug(position, _position, index, timelineId, el)
-            let processor: Processor
-            if (value) {
-                if (isFromTo(value)) {
-                    processor = (tl: Timeline) =>
-                        tl.fromTo(el, value.from, value.to, position)
-                } else if (isProcessor(value)) {
-                    processor = value
-                } else {
-                    processor = (tl: Timeline) => tl.to(el, value, position)
+            // 等待timeline设置 timelineID 后再初始化
+            nextTick(() => {
+                const value = binding.value
+                const [_position, _index, timelineId] =
+                    binding.arg?.split(':').map((d) => d.trim()) || []
+                const index = isNaN(+_index) ? 0 : +_index
+                const position =
+                    (_position &&
+                        _position
+                            .replaceAll('d', '.')
+                            .replaceAll('E', '=')
+                            .replaceAll('e', '=')
+                            .replaceAll('R', '>')
+                            .replaceAll('r', '>')
+                            .replaceAll('L', '<')
+                            .replaceAll('l', '<')) ||
+                    '0'
+                // console.debug(position, _position, index, timelineId, el)
+                let processor: Processor
+                if (value) {
+                    if (isFromTo(value)) {
+                        processor = (tl: Timeline) =>
+                            tl.fromTo(el, value.from, value.to, position)
+                    } else if (isProcessor(value)) {
+                        processor = value
+                    } else {
+                        processor = (tl: Timeline) => tl.to(el, value, position)
+                    }
+                    // 如果没有指定timelineId 需要在dom树往上查找timeline
+                    const finalTimelineId = timelineId || searchTimelineId(el)
+                    const context = groupFactory(finalTimelineId).create(
+                        shortid.generate(),
+                        el,
+                        processor,
+                        index,
+                    )
+                    el.contextId = context.id
                 }
-                const context = groupFactory(timelineId).create(
-                    shortid.generate(),
-                    el,
-                    processor,
-                    index,
-                )
-                el.contextId = context.id
-            }
+            })
         },
     } as Directive<
-        HTMLElement & {
+        Element & {
             contextId: string
         },
         Descriptor | undefined

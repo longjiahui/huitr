@@ -19,3 +19,8 @@ declare module 'events' {
         ): EventListener<Events[Key]>[]
     }
 }
+
+interface Element {
+    timelineId?: string
+    isEntered?: boolean
+}
