@@ -72,6 +72,9 @@ function resolveTimeline(
                 context.el.isEntered = true
             }
         }
+        // 清除相关引用GC
+        timeline.revert()
+        timeline.clear()
     })
     return timeline
 }

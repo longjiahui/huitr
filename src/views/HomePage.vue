@@ -59,7 +59,7 @@
                         stagger: 0.2,
                     })
             "
-            class="flex h-full w-full flex-col items-center justify-center space-y-4"
+            class="fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center space-y-4"
         >
             <button
                 @click="toggle = !toggle"
