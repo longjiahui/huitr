@@ -70,6 +70,37 @@ timeline 组件之间可以相互嵌套
 
 用来描述 enter 动画
 
+### 使用 gsap 的 fromTo
+
+```html
+<huitr-timeline :default="{ duration: 0.55 }">
+    <div
+        v-huitr-enter::-1="{
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+    }"
+    ></div>
+</huitr-timeline>
+```
+
+### 使用 gsap 的 to
+
+```html
+<huitr-timeline :default="{ duration: 0.55 }">
+    <div v-huitr-leave:-e0d5:100="{ opacity: 0, duration: 0.55 }"></div>
+</huitr-timeline>
+```
+
+### 使用函数
+
+```html
+<huitr-timeline :default="{ duration: 0.55 }">
+    <div
+        v-huitr-leave:-e0d5:100="(tl: gsap.core.Timeline, el: Element)=>{ tl.to(el, {opacity: 0}) }"
+    ></div>
+</huitr-timeline>
+```
+
 ## Directive `v-huitr-leave`
 
 用来描述 leave 动画
