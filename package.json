@@ -1,18 +1,13 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.10",
+    "version": "0.0.12",
     "type": "module",
     "files": [
         "dist"
     ],
+    "main": "./dist/huitr.umd.cjs",
     "module": "./dist/huitr.js",
     "types": "./dist/index.d.ts",
-    "exports": {
-        ".": {
-            "import": "./dist/huitr.js",
-            "require": "./dist/huitr.umd.cjs"
-        }
-    },
     "scripts": {
         "prepublishOnly": "npm run build",
         "prepare": "husky install",
