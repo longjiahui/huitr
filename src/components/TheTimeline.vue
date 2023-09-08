@@ -72,7 +72,6 @@ function resolveTimeline(
                 context.el.isEntered = true
             }
         }
-        // 清除相关引用GC
         timeline.revert()
         timeline.clear()
     })
@@ -125,7 +124,17 @@ function handleMounted(el: Element) {
 }
 
 async function handleLeave(_: any, done: () => void) {
-    const timeline = await resolveLeaveTimeline()
-    return timeline.then(() => done())
+    const leaveTimeline = resolveLeaveTimeline()
+    // timeline
+    // enterTimeline.then(() => {
+    //     done()
+    //     enterTimeline.revert()
+    //     enterTimeline.clear()
+    // })
+    return leaveTimeline.then(() => {
+        done()
+        leaveTimeline.revert()
+        leaveTimeline.clear()
+    })
 }
 </script>

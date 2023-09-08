@@ -1,18 +1,19 @@
 <template>
     <div class="h-full w-full">
         <huitr-timeline>
+            <!-- v-if="toggle" -->
             <div
-                v-if="toggle"
+                :key="toggle + ''"
                 v-huitr-enter="{ from: { opacity: 0 }, to: { opacity: 1 } }"
                 v-huitr-leave="{ opacity: 0 }"
                 class="fixed h-full w-full bg-gradient-to-b from-sky-200 to-rose-400"
             ></div>
-            <div
+            <!-- <div
                 v-else
                 v-huitr-enter="{ from: { opacity: 0 }, to: { opacity: 1 } }"
                 v-huitr-leave="{ opacity: 0 }"
                 class="fixed h-full w-full bg-gradient-to-b from-sky-800 to-blue-400"
-            ></div>
+            ></div> -->
         </huitr-timeline>
         <huitr-timeline>
             <div
