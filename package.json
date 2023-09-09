@@ -1,9 +1,10 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "type": "module",
     "files": [
-        "dist"
+        "dist",
+        "src/index.d.ts"
     ],
     "main": "./dist/huitr.umd.cjs",
     "module": "./dist/huitr.js",
