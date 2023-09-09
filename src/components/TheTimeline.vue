@@ -67,11 +67,11 @@ function resolveTimeline(
         }
     }
     timeline.then(() => {
-        for (const i of Object.keys(indexedContexts)) {
-            for (const context of indexedContexts[i]) {
-                context.el.isEntered = true
-            }
-        }
+        // for (const i of Object.keys(indexedContexts)) {
+        //     for (const context of indexedContexts[i]) {
+        //         context.el.isEntered = true
+        //     }
+        // }
         timeline.revert()
         timeline.clear()
     })
@@ -117,24 +117,27 @@ function handleMounted(el: Element) {
         } else {
             // 最外层
             nextTick(() => {
-                resolveEnterTimeline()
+                resolveEnterTimeline().then(() => {
+                    el.isEntered = true
+                })
             })
         }
     })
 }
 
 async function handleLeave(_: any, done: () => void) {
-    const leaveTimeline = resolveLeaveTimeline()
+    // const leaveTimeline =
+    return resolveLeaveTimeline().then(done)
     // timeline
     // enterTimeline.then(() => {
     //     done()
     //     enterTimeline.revert()
     //     enterTimeline.clear()
     // })
-    return leaveTimeline.then(() => {
-        done()
-        leaveTimeline.revert()
-        leaveTimeline.clear()
-    })
+    // return leaveTimeline.then(() => {
+    //     done()
+    //     leaveTimeline.revert()
+    //     leaveTimeline.clear()
+    // })
 }
 </script>

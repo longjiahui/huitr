@@ -1,6 +1,6 @@
 <template>
     <div class="h-full w-full">
-        <huitr-timeline>
+        <huitr-timeline id="hello">
             <!-- v-if="toggle" -->
             <div
                 :key="toggle + ''"
@@ -15,7 +15,7 @@
                 class="fixed h-full w-full bg-gradient-to-b from-sky-800 to-blue-400"
             ></div> -->
         </huitr-timeline>
-        <huitr-timeline>
+        <!-- <huitr-timeline>
             <div
                 v-if="toggle"
                 v-huitr-enter="{
@@ -61,20 +61,20 @@
                     })
             "
             class="fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center space-y-4"
+        > -->
+        <button
+            @click="toggle = !toggle"
+            class="fixed cursor-pointer rounded bg-sky-500 p-4 text-3xl font-bold tracking-widest text-white shadow-lg transition-none duration-300 hover:opacity-70"
         >
-            <button
-                @click="toggle = !toggle"
-                class="cursor-pointer rounded bg-sky-500 p-4 text-3xl font-bold tracking-widest text-white shadow-lg transition-none duration-300 hover:opacity-70"
-            >
-                Toggle
-            </button>
-            <button
+            Toggle
+        </button>
+        <!-- <button
                 @click="$router.push('/test')"
                 class="cursor-pointer rounded bg-sky-500 p-4 text-3xl font-bold tracking-widest text-white shadow-lg transition-none duration-300 hover:opacity-70"
             >
                 Go
             </button>
-        </div>
+        </div> -->
     </div>
 </template>
 
