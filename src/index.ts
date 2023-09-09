@@ -4,6 +4,8 @@ import { Plugin } from 'vue'
 
 export { TheTimeline }
 export { gsapLeaveDirective, gsapEnterDirective }
+export { default as gsap } from 'gsap'
+
 export default () =>
     ({
         install(app) {

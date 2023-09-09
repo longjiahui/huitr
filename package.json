@@ -1,10 +1,11 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "type": "module",
     "files": [
         "dist",
-        "index.d.ts"
+        "index.d.ts",
+        "./src/directives/gsap.ts"
     ],
     "main": "./dist/huitr.umd.cjs",
     "module": "./dist/huitr.js",

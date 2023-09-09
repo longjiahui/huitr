@@ -1,6 +1,6 @@
-import { Descriptor } from '@/directives/gsap'
+import { Descriptor } from './src/directives/gsap'
 import type gsap from 'gsap'
-import { Component, Directive } from 'vue'
+import { Directive, DefineComponent } from 'vue'
 
 export const TheTimeline = DefineComponent<{
     id?: string
