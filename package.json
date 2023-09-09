@@ -1,14 +1,14 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.17",
+    "version": "0.0.18",
     "type": "module",
     "files": [
         "dist",
-        "src/index.d.ts"
+        "index.d.ts"
     ],
     "main": "./dist/huitr.umd.cjs",
     "module": "./dist/huitr.js",
-    "types": "./src/index.d.ts",
+    "types": "./index.d.ts",
     "scripts": {
         "prepublishOnly": "npm run build",
         "prepare": "husky install",
