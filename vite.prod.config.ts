@@ -3,19 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig, mergeConfig } from 'vite'
 import viteCompression from 'vite-plugin-compression'
 
-// import dts from 'vite-plugin-dts'
-
 // https://vitejs.dev/config/
 export default mergeConfig(
     baseConfig,
     defineConfig({
-        plugins: [
-            vue(),
-            viteCompression(),
-            // dts({
-            //     include: 'src/index.ts',
-            // }),
-        ],
+        plugins: [vue(), viteCompression()],
         base: './',
         build: {
             lib: {

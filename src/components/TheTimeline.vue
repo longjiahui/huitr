@@ -20,7 +20,7 @@ import { computed, nextTick } from 'vue'
 const props = withDefaults(
     defineProps<{
         id?: string
-        default?: object
+        default?: gsap.TimelineVars
         leavePosition?: string
         enterPosition?: string
         leaveIndex?: number | string

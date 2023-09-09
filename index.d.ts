@@ -1,26 +1,37 @@
-declare module 'events' {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    type EventMap = Record<string, any[]>
-    type EventKey<T extends EventMap> = string & keyof T
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    type EventListener<T extends any[]> = (...rest: T) => void
+import { Descriptor } from '@/directives/gsap'
+import type gsap from 'gsap'
+import { Component, Directive } from 'vue'
 
-    export class EventEmitter<Events extends EventMap> {
-        on<Key extends keyof Events>(
-            type: Key,
-            listener: EventListener<Events[Key]>,
-        ): this
-        emit<Key extends keyof Events>(
-            type: Key,
-            ...params: Events[Key]
-        ): boolean
-        listeners<Key extends keyof Events>(
-            type: Key,
-        ): EventListener<Events[Key]>[]
+export const TheTimeline = DefineComponent<{
+    id?: string
+    default?: Parameters<gsap.core.Timeline>[0]
+    leavePosition?: string
+    enterPosition?: string
+    leaveIndex?: number | string
+    enterIndex?: number | string
+}>
+export const gsapEnterDirective = Directive
+export const gsapLeaveDirective = Directive
+
+declare module '@vue/runtime-core' {
+    export interface GlobalComponents {
+        HuitrTimeline: DefineComponent<{
+            id?: string
+            default?: gsap.TimelineVars
+            leavePosition?: string
+            enterPosition?: string
+            leaveIndex?: number | string
+            enterIndex?: number | string
+        }>
     }
-}
-
-interface Element {
-    timelineId?: string
-    isEntered?: boolean
+    type directive = Directive<
+        Element & {
+            contextId: string
+        },
+        Descriptor | undefined
+    >
+    export interface ComponentCustomProperties {
+        vHuitrEnter: directive
+        vHuitrLeave: directive
+    }
 }

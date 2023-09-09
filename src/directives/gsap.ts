@@ -57,7 +57,7 @@ export const getLeaveGroup = (timeline?: string) =>
 export const getEnterGroup = (timeline?: string) =>
     gsapProcessorContextManager.group(timeline, 'enter')
 
-type Descriptor = FromTo | Processor | gsap.TweenVars
+export type Descriptor = FromTo | Processor | gsap.TweenVars
 
 function isFromTo(descriptor: Descriptor): descriptor is FromTo {
     return 'from' in descriptor && 'to' in descriptor
