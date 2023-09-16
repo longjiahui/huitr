@@ -1,12 +1,12 @@
 {
     "name": "@anfo/huitr",
-    "version": "0.0.23",
+    "version": "0.0.30",
     "type": "module",
     "files": [
         "dist",
         "index.d.ts",
-        "src",
-        "global.d.ts"
+        "global.d.ts",
+        "types"
     ],
     "main": "./dist/huitr.umd.cjs",
     "module": "./dist/huitr.js",
@@ -17,7 +17,7 @@
         "dev": "vite --force -c vite.dev.config.ts",
         "dev:staging": "concurrently \"npm run build -- --watch\" \"npm run dev -- --mode staging\"",
         "build:staging": "vite build --mode staging -c vite.prod.config.ts",
-        "build": "vite build -c vite.prod.config.ts",
+        "build": "vue-tsc && vite build -c vite.prod.config.ts",
         "preview": "vite preview",
         "dev:test": "vite --host -c vite.e2e.config.ts --port 8173",
         "test": "vitest -c vite.test.config.ts run",
@@ -27,7 +27,7 @@
         "test:e2e": "start-server-and-test dev:test 8173 playwright",
         "test:e2e:ui": "start-server-and-test dev:test 8173 playwright:ui",
         "test:all": "npm run lint && npm run test && npm run test:e2e",
-        "lint": "vue-tsc && eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
+        "lint": "vue-tsc --noEmit --emitDeclarationOnly false && eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
         "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
         "test-and-build": "npm run test:all && npm run build"
     },

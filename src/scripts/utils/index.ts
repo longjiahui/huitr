@@ -1,5 +1,6 @@
+import * as $const from '../../const'
+import { TimelineElement } from '../../type'
 import * as storage from './storage'
-import * as $const from '@/const'
 import { ref, watch, WatchSource, WatchOptions, Ref } from 'vue'
 
 export * from './storage'
@@ -62,17 +63,17 @@ export function selectFile(accept?: string): Promise<Blob | undefined> {
     })
 }
 
-export function searchTimelineId(_el: Element) {
+export function searchTimelineId(_el: TimelineElement) {
     let timelineId: string | undefined
-    let el: Element | null = _el
+    let el: TimelineElement | null = _el
     while (!(timelineId = el?.timelineId) && el) {
         el = el.parentElement
     }
     return timelineId
 }
 
-export function searchParentTimeline(_el: Element) {
-    let el: Element | null = _el.parentElement
+export function searchParentTimeline(_el: TimelineElement) {
+    let el: TimelineElement | null = _el.parentElement
     while (!el?.timelineId && el) {
         el = el.parentElement
     }

@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { getLeaveGroup, getEnterGroup } from '@/directives/gsap'
 import { searchParentTimeline } from '@/scripts/utils'
+import { TimelineElement } from '@/type'
 import gsap from 'gsap'
 import shortid from 'shortid'
 import { computed, nextTick } from 'vue'
@@ -86,7 +87,7 @@ function resolveLeaveTimeline() {
     return resolveTimeline(getLeaveGroup)
 }
 
-function handleMounted(el: Element) {
+function handleMounted(el: TimelineElement) {
     el.timelineId = finalId.value
     nextTick(() => {
         // 查找到父 timelineID 并添加相关context

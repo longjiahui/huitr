@@ -1,11 +1,11 @@
-import { Descriptor } from './src/directives/gsap'
+import { Descriptor } from './types/src/directives/gsap'
 import type {
     TheTimeline,
     gsapEnterDirective,
     gsapLeaveDirective,
     gsapEnterAndLeaveDirective,
-} from './src/index.d.ts'
-import * as $huitr from './src/scripts/huitrUtils'
+} from './types/src/index.d.ts'
+import * as $huitr from './types/src/scripts/huitrUtils'
 import { Directive } from 'vue'
 
 declare module 'vue' {

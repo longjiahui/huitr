@@ -1,4 +1,4 @@
-import { EnterAndLeaveDescriptors } from '@/directives/gsap'
+import { EnterAndLeaveDescriptors } from '../directives/gsap'
 
 export function fade(): EnterAndLeaveDescriptors {
     return {

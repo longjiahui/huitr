@@ -17,7 +17,7 @@ const module = isDev
     const [{ default: huitr }] = (await Promise.all(
         Object.keys(module).map((k: keyof typeof module) => module[k]()),
     )) as [{ default: typeof HuitrPlugin }]
-    app.use(huitr())
+    app.use(huitr)
 })().finally(() => {
     app.mount('#app')
 })
