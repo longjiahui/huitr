@@ -4,8 +4,7 @@
             <!-- v-if="toggle" -->
             <div
                 :key="toggle + ''"
-                v-huitr-enter="{ from: { opacity: 0 }, to: { opacity: 1 } }"
-                v-huitr-leave="{ opacity: 0 }"
+                v-huitr="$huitr.fade()"
                 class="fixed h-full w-full bg-gradient-to-b from-sky-200 to-rose-400"
             ></div>
             <!-- <div

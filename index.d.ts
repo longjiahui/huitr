@@ -1,37 +1,17 @@
-import { Descriptor } from './src/directives/gsap'
-import type gsap from 'gsap'
-import { Directive, DefineComponent } from 'vue'
+import {
+  Descriptor,
+  EnterAndLeaveDescriptors,
+  gsapEnterAndLeaveDirective,
+  gsapEnterDirective,
+  gsapLeaveDirective,
+} from "./src/directives/gsap";
+import gsap from "gsap";
+import { DefineComponent, Directive } from "vue";
+export { TheTimeline } from "./src";
 
-export const TheTimeline = DefineComponent<{
-    id?: string
-    default?: Parameters<gsap.core.Timeline>[0]
-    leavePosition?: string
-    enterPosition?: string
-    leaveIndex?: number | string
-    enterIndex?: number | string
-}>
-export const gsapEnterDirective = Directive
-export const gsapLeaveDirective = Directive
+export * from "./src/scripts/huitrUtils";
 
-declare module '@vue/runtime-core' {
-    export interface GlobalComponents {
-        HuitrTimeline: DefineComponent<{
-            id?: string
-            default?: gsap.TimelineVars
-            leavePosition?: string
-            enterPosition?: string
-            leaveIndex?: number | string
-            enterIndex?: number | string
-        }>
-    }
-    type directive = Directive<
-        Element & {
-            contextId: string
-        },
-        Descriptor | undefined
-    >
-    export interface ComponentCustomProperties {
-        vHuitrEnter: directive
-        vHuitrLeave: directive
-    }
-}
+export declare const gsapEnterDirective: typeof gsapEnterDirective;
+export declare const gsapLeaveDirective: typeof gsapLeaveDirective;
+export declare const gsapEnterAndLeaveDirective:
+  typeof gsapEnterAndLeaveDirective;

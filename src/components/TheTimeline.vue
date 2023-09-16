@@ -97,7 +97,9 @@ function handleMounted(el: Element) {
                 shortid.generate(),
                 el,
                 (tl) => {
-                    tl.add(resolveEnterTimeline(), props.enterPosition)
+                    const scopedTimeline = resolveEnterTimeline()
+                    scopedTimeline.then(() => (el.isEntered = true))
+                    tl.add(scopedTimeline, props.enterPosition)
                 },
                 finalEnterIndex.value,
             )
@@ -111,7 +113,7 @@ function handleMounted(el: Element) {
             )
             if (parentTimeline.isEntered) {
                 nextTick(() => {
-                    resolveEnterTimeline()
+                    resolveEnterTimeline().then(() => (el.isEntered = true))
                 })
             }
         } else {

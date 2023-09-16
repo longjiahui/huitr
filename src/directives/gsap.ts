@@ -2,8 +2,8 @@ import {
     ContextFactory,
     ContextManager,
     Context,
-} from '@/scripts/contextManager'
-import { searchTimelineId } from '@/scripts/utils'
+} from '../scripts/contextManager'
+import { searchTimelineId } from '../scripts/utils'
 import gsap from 'gsap'
 import shortid from 'shortid'
 import { Directive, nextTick } from 'vue'
@@ -66,6 +66,45 @@ function isProcessor(descriptor: Descriptor): descriptor is Processor {
     return descriptor instanceof Function
 }
 
+function parsePosition(position: string | undefined) {
+    return (
+        (position &&
+            position
+                .replaceAll('d', '.')
+                .replaceAll('E', '=')
+                .replaceAll('e', '=')
+                .replaceAll('R', '>')
+                .replaceAll('r', '>')
+                .replaceAll('L', '<')
+                .replaceAll('l', '<')) ||
+        '0'
+    )
+}
+
+function parseArg(arg: string | undefined) {
+    const [_position, _index, timelineId] =
+        arg?.split(':').map((d) => d.trim()) || []
+    const index = isNaN(+_index) ? 0 : +_index
+    return { position: parsePosition(_position), index, timelineId }
+}
+
+function getProcessor<T extends Element>(
+    el: T,
+    descriptor: Descriptor,
+    position?: string,
+) {
+    let processor: Processor
+    if (isFromTo(descriptor)) {
+        processor = (tl: Timeline) =>
+            tl.fromTo(el, descriptor.from, descriptor.to, position)
+    } else if (isProcessor(descriptor)) {
+        processor = descriptor
+    } else {
+        processor = (tl: Timeline) => tl.to(el, descriptor, position)
+    }
+    return processor
+}
+
 const gsapDirective = (
     groupFactory: (
         timelineId?: string,
@@ -75,50 +114,61 @@ const gsapDirective = (
         mounted(el, binding) {
             // 等待timeline设置 timelineID 后再初始化
             nextTick(() => {
-                const value = binding.value
-                const [_position, _index, timelineId] =
-                    binding.arg?.split(':').map((d) => d.trim()) || []
-                const index = isNaN(+_index) ? 0 : +_index
-                const position =
-                    (_position &&
-                        _position
-                            .replaceAll('d', '.')
-                            .replaceAll('E', '=')
-                            .replaceAll('e', '=')
-                            .replaceAll('R', '>')
-                            .replaceAll('r', '>')
-                            .replaceAll('L', '<')
-                            .replaceAll('l', '<')) ||
-                    '0'
-                // console.debug(position, _position, index, timelineId, el)
-                let processor: Processor
-                if (value) {
-                    if (isFromTo(value)) {
-                        processor = (tl: Timeline) =>
-                            tl.fromTo(el, value.from, value.to, position)
-                    } else if (isProcessor(value)) {
-                        processor = value
-                    } else {
-                        processor = (tl: Timeline) => tl.to(el, value, position)
-                    }
+                const { position, timelineId, index } = parseArg(binding.arg)
+                if (binding.value) {
                     // 如果没有指定timelineId 需要在dom树往上查找timeline
                     const finalTimelineId = timelineId || searchTimelineId(el)
-                    const context = groupFactory(finalTimelineId).create(
+                    groupFactory(finalTimelineId).create(
                         shortid.generate(),
                         el,
-                        processor,
+                        getProcessor(el, binding.value, position),
                         index,
                     )
-                    el.contextId = context.id
                 }
             })
         },
-    } as Directive<
-        Element & {
-            contextId: string
-        },
-        Descriptor | undefined
-    >)
+    } as Directive<Element, Descriptor | undefined>)
+
+export interface EnterAndLeaveDescriptors {
+    enter?: Descriptor
+    leave?: Descriptor
+    enterArg?: string
+    leaveArg?: string
+}
 
 export const gsapEnterDirective = gsapDirective(getEnterGroup)
 export const gsapLeaveDirective = gsapDirective(getLeaveGroup)
+export const gsapEnterAndLeaveDirective = {
+    mounted(el, binding) {
+        // 等待timeline设置 timelineID 后再初始化
+        nextTick(() => {
+            if (binding.value) {
+                const { enter, leave, enterArg, leaveArg } = binding.value
+                if (enter) {
+                    const { position, timelineId, index } = parseArg(
+                        enterArg || binding.arg,
+                    )
+                    const finalTimelineId = timelineId || searchTimelineId(el)
+                    getEnterGroup(finalTimelineId).create(
+                        shortid.generate(),
+                        el,
+                        getProcessor(el, enter, position),
+                        index,
+                    )
+                }
+                if (leave) {
+                    const { position, timelineId, index } = parseArg(
+                        leaveArg || binding.arg,
+                    )
+                    const finalTimelineId = timelineId || searchTimelineId(el)
+                    getLeaveGroup(finalTimelineId).create(
+                        shortid.generate(),
+                        el,
+                        getProcessor(el, leave, position),
+                        index,
+                    )
+                }
+            }
+        })
+    },
+} as Directive<Element, EnterAndLeaveDescriptors | undefined>
