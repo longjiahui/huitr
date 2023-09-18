@@ -25,11 +25,10 @@ jobs:
           # cache deps for pnpm
           cache: npm
 
+      - run: npm ci
       # run build script
       - name: Build VuePress site
-        run: 
-          - npm ci
-          - npm run docs:build
+        run: npm run docs:build
 
       # please check out the docs of the workflow for more details
       # @see https://github.com/crazy-max/ghaction-github-pages
